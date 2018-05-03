@@ -6,20 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://txzdream.github.io">
-  <title>系分作业4 | 冰糖葫芦的个人博客</title>
+  <title>系分作业5 | 冰糖葫芦的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="糖葫芦的小窝">
+  <meta name="description" content="领域建模 阅读 Asg_RH 文档，按用例构建领域模型。    数据库建模(E-R 模型)   按 Task 3 要求，给出系统的 E-R 模型（数据逻辑模型）    导出 Mysql 物理数据库的脚本  1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253">
 <meta name="keywords" content="SAAD,系统分析与设计">
 <meta property="og:type" content="article">
-<meta property="og:title" content="系分作业4">
+<meta property="og:title" content="系分作业5">
 <meta property="og:url" content="https://txzdream.github.io/2018/04/29/SAAD-hw5/index.html">
 <meta property="og:site_name" content="冰糖葫芦的个人博客">
-<meta property="og:description" content="糖葫芦的小窝">
+<meta property="og:description" content="领域建模 阅读 Asg_RH 文档，按用例构建领域模型。    数据库建模(E-R 模型)   按 Task 3 要求，给出系统的 E-R 模型（数据逻辑模型）    导出 Mysql 物理数据库的脚本  1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2018-04-29T11:38:45.385Z">
+<meta property="og:image" content="https://txzdream.github.io/images/saad-5-1.png">
+<meta property="og:image" content="https://txzdream.github.io/images/saad-5-2.bmp">
+<meta property="og:updated_time" content="2018-05-03T07:27:58.528Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="系分作业4">
-<meta name="twitter:description" content="糖葫芦的小窝">
+<meta name="twitter:title" content="系分作业5">
+<meta name="twitter:description" content="领域建模 阅读 Asg_RH 文档，按用例构建领域模型。    数据库建模(E-R 模型)   按 Task 3 要求，给出系统的 E-R 模型（数据逻辑模型）    导出 Mysql 物理数据库的脚本  1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253">
+<meta name="twitter:image" content="https://txzdream.github.io/images/saad-5-1.png">
   
   
     <link rel="icon" href="/icon/favicon.png">
@@ -158,7 +161,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      系分作业4
+      系分作业5
     </h1>
   
 
@@ -171,7 +174,26 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h2 id="领域建模"><a href="#领域建模" class="headerlink" title="领域建模"></a>领域建模</h2><ol>
+<li>阅读 Asg_RH 文档，按用例构建领域模型。</li>
+</ol>
+<p><img src="/images/saad-5-1.png" alt="hw5"></p>
+<ol>
+<li>数据库建模(E-R 模型)</li>
+</ol>
+<ul>
+<li>按 Task 3 要求，给出系统的 E-R 模型（数据逻辑模型）</li>
+</ul>
+<p><img src="/images/saad-5-2.bmp" alt="hw5"></p>
+<ul>
+<li>导出 Mysql 物理数据库的脚本</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- +---------------------------------------------------------</span></span><br><span class="line"><span class="comment">-- | MODEL       : hw5</span></span><br><span class="line"><span class="comment">-- | AUTHOR      : TangXuanzhao</span></span><br><span class="line"><span class="comment">-- | GENERATED BY: Open System Architect</span></span><br><span class="line"><span class="comment">-- +---------------------------------------------------------</span></span><br><span class="line"><span class="comment">-- | WARNING     : Review before execution</span></span><br><span class="line"><span class="comment">-- +---------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- +---------------------------------------------------------</span></span><br><span class="line"><span class="comment">-- | CREATE</span></span><br><span class="line"><span class="comment">-- +---------------------------------------------------------</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`Shopping_basket`</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">id</span> <span class="built_in">NUMERIC</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`Traveler`</span></span><br><span class="line">(</span><br><span class="line">  email <span class="built_in">VARCHAR</span>(<span class="number">50</span>),</span><br><span class="line">  full_name <span class="built_in">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line">  <span class="keyword">id</span> <span class="built_in">NUMERIC</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`credit_card`</span></span><br><span class="line">(</span><br><span class="line">   ,</span><br><span class="line">  <span class="keyword">id</span> <span class="built_in">NUMERIC</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`payment`</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">id</span> <span class="built_in">NUMERIC</span>,</span><br><span class="line">  traveller <span class="built_in">VARCHAR</span>(<span class="number">20</span>)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`room_state`</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">id</span> <span class="built_in">NUMERIC</span>,</span><br><span class="line">  price <span class="built_in">FLOAT</span>,</span><br><span class="line">  start_time <span class="keyword">TIME</span>,</span><br><span class="line">  end_time <span class="keyword">TIME</span>,</span><br><span class="line">  <span class="keyword">status</span> <span class="built_in">REAL</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`room`</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">id</span> <span class="built_in">NUMERIC</span>,</span><br><span class="line">  price <span class="built_in">INTEGER</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`item`</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">id</span> <span class="built_in">NUMERIC</span>,</span><br><span class="line">  <span class="built_in">date</span> <span class="keyword">TIME</span>,</span><br><span class="line">  location <span class="built_in">VARCHAR</span>(<span class="number">50</span>)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`location`</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">id</span> <span class="built_in">NUMERIC</span>,</span><br><span class="line">  <span class="keyword">name</span> <span class="built_in">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line">  <span class="keyword">type</span> <span class="built_in">INTEGER</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`hotel`</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">id</span> <span class="built_in">NUMERIC</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>简单叙说 数据库逻辑模型 与 领域模型 的异同</li>
+</ul>
+<p>领域模型和具体的软件开发并没有关系，它只是用来表述业务模型；数据库模型则和软件开发有关，主要是为了表达数据库中的结构</p>
+
       
 
       
@@ -287,7 +309,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    目录，不存在的…
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#领域建模"><span class="toc-number">1.</span> <span class="toc-text">领域建模</span></a></li></ol>
                     </div>
                 </span>
             </div>
