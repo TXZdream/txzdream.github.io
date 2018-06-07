@@ -6,18 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://txzdream.github.io">
-  <title>Archives | 冰糖葫芦的个人博客</title>
+  <title>travis与docker hub集成 | 冰糖葫芦的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="糖葫芦的小窝">
-<meta property="og:type" content="website">
-<meta property="og:title" content="冰糖葫芦的个人博客">
-<meta property="og:url" content="https://txzdream.github.io/archives/index.html">
+  <meta name="description" content="前言相信很多人都有在github上进行开发的经历，而很多人对docker和CI也都有一定的了解，那这篇文章主要介绍将github、travis和docker hub集成的方法，希望可以给大家带去一些参考 本文内容你能看到什么本文主要介绍github、travis及docker hub的集成，主要场景如下：当你在本地将写好的代码推送到github上时，希望系统可以自动将你的代码进行编译、测试、打包，">
+<meta name="keywords" content="SAAD,travis,docker hub">
+<meta property="og:type" content="article">
+<meta property="og:title" content="travis与docker hub集成">
+<meta property="og:url" content="https://txzdream.github.io/2018/06/07/travis-docker-hub/index.html">
 <meta property="og:site_name" content="冰糖葫芦的个人博客">
-<meta property="og:description" content="糖葫芦的小窝">
+<meta property="og:description" content="前言相信很多人都有在github上进行开发的经历，而很多人对docker和CI也都有一定的了解，那这篇文章主要介绍将github、travis和docker hub集成的方法，希望可以给大家带去一些参考 本文内容你能看到什么本文主要介绍github、travis及docker hub的集成，主要场景如下：当你在本地将写好的代码推送到github上时，希望系统可以自动将你的代码进行编译、测试、打包，">
 <meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2018-06-07T11:14:04.642Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="冰糖葫芦的个人博客">
-<meta name="twitter:description" content="糖葫芦的小窝">
+<meta name="twitter:title" content="travis与docker hub集成">
+<meta name="twitter:description" content="前言相信很多人都有在github上进行开发的经历，而很多人对docker和CI也都有一定的了解，那这篇文章主要介绍将github、travis和docker hub集成的方法，希望可以给大家带去一些参考 本文内容你能看到什么本文主要介绍github、travis及docker hub的集成，主要场景如下：当你在本地将写好的代码推送到github上时，希望系统可以自动将你的代码进行编译、测试、打包，">
   
   
     <link rel="icon" href="/icon/favicon.png">
@@ -149,36 +151,63 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-travis-docker-hub" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/07/travis-docker-hub/" class="archive-article-date">
-  	<time datetime="2018-06-07T10:30:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-07</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/07/travis-docker-hub/">travis与docker hub集成</a>
+    <h1 class="article-title" itemprop="name">
+      travis与docker hub集成
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/06/07/travis-docker-hub/" class="archive-article-date">
+  	<time datetime="2018-06-07T10:30:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>相信很多人都有在github上进行开发的经历，而很多人对docker和CI也都有一定的了解，那这篇文章主要介绍将github、travis和docker hub集成的方法，希望可以给大家带去一些参考</p>
+<h2 id="本文内容"><a href="#本文内容" class="headerlink" title="本文内容"></a>本文内容</h2><h3 id="你能看到什么"><a href="#你能看到什么" class="headerlink" title="你能看到什么"></a>你能看到什么</h3><p>本文主要介绍github、travis及docker hub的集成，主要场景如下：当你在本地将写好的代码推送到github上时，希望系统可以自动将你的代码进行编译、测试、打包，甚至是直接推送到服务器上进行更新，这里就介绍几个免费的平台可以帮助你完成这些流程</p>
+<h3 id="你看不到什么"><a href="#你看不到什么" class="headerlink" title="你看不到什么"></a>你看不到什么</h3><p>你只能从本文中获取这些平台的基本使用方法，而无法获取详细的配置过程，因为不同的代码对应着不同的配置，没有一个通吃的配置给你使用，所以在具体的实践中，你可能需要自己去阅读各个平台的文档，并根据你的项目，编写不同的配置文件</p>
+<h2 id="介绍-本篇废话较多，建议跳过"><a href="#介绍-本篇废话较多，建议跳过" class="headerlink" title="介绍(本篇废话较多，建议跳过)"></a>介绍(本篇废话较多，建议跳过)</h2><p>在正文之前，先带着大家了解一下我们将要使用到的平台，这两个平台本身都可以独立地和github集成在一起，但是由于某些原因，我选择按照一定的次序来进行组合，而不是直接进行组合，在接下来的内容中将会有所提及</p>
+<h3 id="Travis"><a href="#Travis" class="headerlink" title="Travis"></a>Travis</h3><p>在了解<a href="https://travis-ci.org/" target="_blank" rel="noopener">travis</a>之前，我们需要先了解一下什么是<code>Continuous Integration(CI)</code>，按照travis给出的文档中的定义如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Continuous Integration is the practice of merging in small code changes frequently - rather than merging in a large change at the end of a development cycle. The goal is to build healthier software by developing and testing in smaller increments. This is where Travis CI comes in.</span><br></pre></td></tr></table></figure></p>
+<p>也就是说，ci指的就是，当你写好一个功能之后，就将这个代码集成到主干上，而不是在一次开发周期结束后再这么做。那现在问题来了，为什么要这么做呢？其实很简单，人在写代码时候难免会犯错是吧，那如果我写完一个函数就集成一次，是不是就意味着我可以很快地发现错误呢？代码的错误少了，也就意味着代码的质量上来了，所以我们大概可以得到一个结论：CI可以帮助我们提高代码质量。</p>
+<p>好了，既然了解了CI可以给我们带来的好处，那就做就是了，但是新的问题又来了：一般程序员都比较懒，希望一次性写好所有东西，之后只要输入一个命令就可以完成工作就行了，那我们这里的持续集成可不可以这样呢？那当然是可以的，travis就是这样一个平台，它可以帮助你在提交代码后，自动地完成后续工作，包括编译、测试甚至是部署，从而大大提高我们的效率</p>
+<h3 id="Docker-hub"><a href="#Docker-hub" class="headerlink" title="Docker hub"></a>Docker hub</h3><p>一句话：docker hub就是一个存放容器镜像的地方。官方提供了一个免费的仓库使用：<a href="https://hub.docker.com/" target="_blank" rel="noopener">docker hub</a></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>好了，在完成了介绍之后，我们来看看具体怎么将这三者联合起来使用，具体的流程如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">|--------------------------------------------------------------|</span><br><span class="line">|                                                              |</span><br><span class="line">|提交代码到github---&gt;travis编译、测试、构建镜像-----&gt;推送到docker hub|</span><br><span class="line">|                                                              |</span><br><span class="line">|--------------------------------------------------------------|</span><br></pre></td></tr></table></figure>
+<p>大家应该都知道怎么使用github，所以我们先介绍一下travis的使用</p>
+<h3 id="travis的使用"><a href="#travis的使用" class="headerlink" title="travis的使用"></a>travis的使用</h3><p>使用travis，你需要有一个配置文件，以及将你的github授权给travis，之后遵循以下步骤：</p>
+<ol>
+<li><p>编写<code>.travis.yml</code>文件</p>
+</li>
+<li><p>在travis中打开该项目的开关</p>
+</li>
+<li><p>推送到github</p>
+</li>
+</ol>
+<p>具体流程在官网文档](<a href="https://docs.travis-ci.com/user/getting-started/)中有，这里就不多说了，跟着以上流程来就可以了" target="_blank" rel="noopener">https://docs.travis-ci.com/user/getting-started/)中有，这里就不多说了，跟着以上流程来就可以了</a></p>
+<h3 id="编写Dockerfile"><a href="#编写Dockerfile" class="headerlink" title="编写Dockerfile"></a>编写Dockerfile</h3><p>光有代码可不行，机器没办法根据我们的代码内容推测出怎么去构建镜像，所以我们需要有一个文件可以帮助机器去执行相应的流程，而在docker中就是使用Dockerfile文件来构建镜像的，具体的文件使用说明可以参考网上或者官方的一大堆文档，这里仅仅给出实例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu</span><br><span class="line">ADD main /</span><br><span class="line">ENTRYPOINT ["/main"]</span><br><span class="line"></span><br><span class="line">RUN apt-get update &amp;&amp; apt-get install -y ca-certificates</span><br></pre></td></tr></table></figure>
+<p>这个很简单，就是告诉docker，我们要使用ubuntu这个基础镜像，然后将当前文件下的编译好的main文件放到根目录下，启动镜像的命令就是<code>/main</code>，为了需要，我们需要运行一个命令，安装一个程序。是不是很简单？好像就是告诉一个流程一样，而只需要这个流程对了，就可以得到我们想要的东西</p>
+<h3 id="推送到docker-hub"><a href="#推送到docker-hub" class="headerlink" title="推送到docker hub"></a>推送到docker hub</h3><p>那我们希望在完成测试后直接构建镜像并推送到docker hub，而docker hub的账户密码又是私密的，那这里就可以使用到travis的环境变量啦，在项目的右上角有一个<code>more option</code>的按钮，点击<code>setting</code>后在环境变量一栏中，添加环境变量的内容，然后在travis中引用环境变量，就可以将自己的私密信息保留起来啦，这里给出一个travis的实例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">sudo: required</span><br><span class="line">services:</span><br><span class="line">  - docker</span><br><span class="line"></span><br><span class="line">language: go</span><br><span class="line">go:</span><br><span class="line">  - "1.9"</span><br><span class="line">go_import_path: github.com/sysu-saad-project/service-end</span><br><span class="line"></span><br><span class="line">env:</span><br><span class="line">  - DOCKER_COMPOSE_VERSION=1.21.0</span><br><span class="line"></span><br><span class="line">before_install:</span><br><span class="line"><span class="meta">#</span> Install docker-compose</span><br><span class="line">  - sudo rm /usr/local/bin/docker-compose</span><br><span class="line">  - curl -L https://github.com/docker/compose/releases/download/$&#123;DOCKER_COMPOSE_VERSION&#125;/docker-compose-`uname -s`-`uname -m` &gt; docker-compose</span><br><span class="line">  - chmod +x docker-compose</span><br><span class="line">  - sudo mv docker-compose /usr/local/bin</span><br><span class="line"><span class="meta">#</span> Create docker network</span><br><span class="line">  - docker network create activity</span><br><span class="line">  - docker network create dev</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Test step</span><br><span class="line">script:</span><br><span class="line"><span class="meta">#</span> Compile code</span><br><span class="line">  - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .</span><br><span class="line"><span class="meta">#</span> Build image locally</span><br><span class="line">  - docker build -t xiaxzh/script:dev .</span><br><span class="line">  - go test ./...</span><br><span class="line"></span><br><span class="line">after_success:</span><br><span class="line"><span class="meta">#</span> Push to docker registry</span><br><span class="line">  - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin</span><br><span class="line">  - docker push xiaxzh/script:dev</span><br></pre></td></tr></table></figure>
+<p>注意最后两行，这就是我们使用环境变量的方式，通过这样的方式，我们就可以将我们的用户名隐藏起来</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上介绍了从推送代码到生成镜像的全过程，可能比较粗糙，但是整个过程还是比较明了的，就像遵循着一个流程过来一样，具体的部署这里没有涉及，感兴趣的可以自己上网查找相关资料。正如我前面所说的，这里只是给出了一个基本的流程，而其中相关的知识点需要大家去官方网站寻找文档解决。</p>
+<p>最后，不懂的内容可以在下面的评论给出，我将会在我看到之后第一时间和您交流我的解决方案。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -198,313 +227,135 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://txzdream.github.io/2018/06/07/travis-docker-hub/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/05/06/SAAD-hw6/" class="archive-article-date">
-  	<time datetime="2018-05-06T11:15:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-06</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/05/06/SAAD-hw6/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">系分作业6</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/06/SAAD-hw6/">系分作业6</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">SAAD</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">系统分析与设计</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本文内容"><span class="toc-number">2.</span> <span class="toc-text">本文内容</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#你能看到什么"><span class="toc-number">2.1.</span> <span class="toc-text">你能看到什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#你看不到什么"><span class="toc-number">2.2.</span> <span class="toc-text">你看不到什么</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍-本篇废话较多，建议跳过"><span class="toc-number">3.</span> <span class="toc-text">介绍(本篇废话较多，建议跳过)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Travis"><span class="toc-number">3.1.</span> <span class="toc-text">Travis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-hub"><span class="toc-number">3.2.</span> <span class="toc-text">Docker hub</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-number">4.</span> <span class="toc-text">使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#travis的使用"><span class="toc-number">4.1.</span> <span class="toc-text">travis的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编写Dockerfile"><span class="toc-number">4.2.</span> <span class="toc-text">编写Dockerfile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#推送到docker-hub"><span class="toc-number">4.3.</span> <span class="toc-text">推送到docker hub</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/29/SAAD-hw5/" class="archive-article-date">
-  	<time datetime="2018-04-29T11:38:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-29</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/29/SAAD-hw5/">系分作业5</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">SAAD</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">系统分析与设计</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/15/SAAD-summary-iter1/" class="archive-article-date">
-  	<time datetime="2018-04-15T03:01:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/15/SAAD-summary-iter1/">系分作业第一次总结</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">SAAD</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">系统分析与设计</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/12/SAAD-hw3/" class="archive-article-date">
-  	<time datetime="2018-04-12T10:50:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/12/SAAD-hw3/">系分作业4</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">SAAD</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">系统分析与设计</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/20/SAAD-hw2/" class="archive-article-date">
-  	<time datetime="2018-03-20T09:57:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-20</time>
-</a>
-        </div>
-    	 
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "https://txzdream.github.io/2018/06/07/travis-docker-hub/",
+  owner: 'txzdream',
+  repo: 'txzdream.github.io',
+  oauth: {
+    client_id: '2dd47df8038430bfb8fd',
+    client_secret: '230efe90767b07ef434926882a1cd715a8ca9397',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/20/SAAD-hw2/">系分作业2</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">SAAD</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">系统分析与设计</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/12/SAAD-hw1/" class="archive-article-date">
-  	<time datetime="2018-03-12T11:57:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/12/SAAD-hw1/">系分作业1</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">SAAD</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">系统分析与设计</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/12/golang-2018-3-11/" class="archive-article-date">
-  	<time datetime="2018-03-12T11:55:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/12/golang-2018-3-11/">2018-3-11编码规划</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">golang</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">project</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -527,8 +378,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
