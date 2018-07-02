@@ -6,26 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://txzdream.github.io">
-  <title>系分作业4 | 冰糖葫芦的个人博客</title>
+  <title>golang三层架构实践 | 冰糖葫芦的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="个人作业 用例建模  阅读 Asg_RH 文档，绘制用例图。 按 Task1 要求，请使用工具 UMLet，截图格式务必是 png 并控制尺寸   选择你熟悉的定旅馆在线服务系统（或移动 APP），如绘制用例图。并满足以下要求：  对比 Asg_RH 用例图，请用色彩标注出创新用例或子用例 尽可能识别外部系统，并用色彩标注新的外部系统和服务    对比两个时代、不同地区产品的用例图，总结在项目早期">
-<meta name="keywords" content="SAAD,系统分析与设计">
+  <meta name="description" content="引言作为一个讨厌使用java的后台程序员，我选择使用golang作为后台开发语言，而golang本身的web支持就十分详尽，不太需要外部框架进行辅助，这也就带来了一个问题，我们需要自己去想办法自己实现java spring框架支持的三层架构。 提前声明，以下内容只是个人在正式来说第一次完整的系统开发中的一些经验，实际可能并不是我以下所提到的方式，所以具体的请以大型项目的分享为准。 三层架构(内容主">
+<meta name="keywords" content="SAAD,Architecture,golang">
 <meta property="og:type" content="article">
-<meta property="og:title" content="系分作业4">
-<meta property="og:url" content="https://txzdream.github.io/2018/04/12/SAAD-hw3/index.html">
+<meta property="og:title" content="golang三层架构实践">
+<meta property="og:url" content="https://txzdream.github.io/2018/07/02/golang-3-layer/index.html">
 <meta property="og:site_name" content="冰糖葫芦的个人博客">
-<meta property="og:description" content="个人作业 用例建模  阅读 Asg_RH 文档，绘制用例图。 按 Task1 要求，请使用工具 UMLet，截图格式务必是 png 并控制尺寸   选择你熟悉的定旅馆在线服务系统（或移动 APP），如绘制用例图。并满足以下要求：  对比 Asg_RH 用例图，请用色彩标注出创新用例或子用例 尽可能识别外部系统，并用色彩标注新的外部系统和服务    对比两个时代、不同地区产品的用例图，总结在项目早期">
+<meta property="og:description" content="引言作为一个讨厌使用java的后台程序员，我选择使用golang作为后台开发语言，而golang本身的web支持就十分详尽，不太需要外部框架进行辅助，这也就带来了一个问题，我们需要自己去想办法自己实现java spring框架支持的三层架构。 提前声明，以下内容只是个人在正式来说第一次完整的系统开发中的一些经验，实际可能并不是我以下所提到的方式，所以具体的请以大型项目的分享为准。 三层架构(内容主">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:image" content="https://txzdream.github.io/images/saad-2-1.png">
-<meta property="og:image" content="https://txzdream.github.io/images/saad-2-1.png">
-<meta property="og:image" content="https://txzdream.github.io/images/saad-2-4.png">
-<meta property="og:image" content="https://txzdream.github.io/images/saad-2-5.png">
-<meta property="og:image" content="https://txzdream.github.io/images/saad-2-6.png">
-<meta property="og:updated_time" content="2018-04-22T15:10:01.000Z">
+<meta property="og:updated_time" content="2018-07-02T11:40:48.749Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="系分作业4">
-<meta name="twitter:description" content="个人作业 用例建模  阅读 Asg_RH 文档，绘制用例图。 按 Task1 要求，请使用工具 UMLet，截图格式务必是 png 并控制尺寸   选择你熟悉的定旅馆在线服务系统（或移动 APP），如绘制用例图。并满足以下要求：  对比 Asg_RH 用例图，请用色彩标注出创新用例或子用例 尽可能识别外部系统，并用色彩标注新的外部系统和服务    对比两个时代、不同地区产品的用例图，总结在项目早期">
-<meta name="twitter:image" content="https://txzdream.github.io/images/saad-2-1.png">
+<meta name="twitter:title" content="golang三层架构实践">
+<meta name="twitter:description" content="引言作为一个讨厌使用java的后台程序员，我选择使用golang作为后台开发语言，而golang本身的web支持就十分详尽，不太需要外部框架进行辅助，这也就带来了一个问题，我们需要自己去想办法自己实现java spring框架支持的三层架构。 提前声明，以下内容只是个人在正式来说第一次完整的系统开发中的一些经验，实际可能并不是我以下所提到的方式，所以具体的请以大型项目的分享为准。 三层架构(内容主">
   
   
     <link rel="icon" href="/icon/favicon.png">
@@ -157,66 +151,51 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-SAAD-hw3" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-golang-3-layer" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      系分作业4
+      golang三层架构实践
     </h1>
   
 
         
-        <a href="/2018/04/12/SAAD-hw3/" class="archive-article-date">
-  	<time datetime="2018-04-12T10:50:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-12</time>
+        <a href="/2018/07/02/golang-3-layer/" class="archive-article-date">
+  	<time datetime="2018-07-02T10:50:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-02</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="个人作业"><a href="#个人作业" class="headerlink" title="个人作业"></a>个人作业</h2><ol>
-<li><p>用例建模</p>
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>作为一个讨厌使用java的后台程序员，我选择使用golang作为后台开发语言，而golang本身的web支持就十分详尽，不太需要外部框架进行辅助，这也就带来了一个问题，我们需要自己去想办法自己实现java spring框架支持的三层架构。</p>
+<p>提前声明，以下内容只是个人在正式来说第一次完整的系统开发中的一些经验，实际可能并不是我以下所提到的方式，所以具体的请以大型项目的分享为准。</p>
+<h2 id="三层架构-内容主要来自百度"><a href="#三层架构-内容主要来自百度" class="headerlink" title="三层架构(内容主要来自百度)"></a>三层架构(内容主要来自百度)</h2><ol>
+<li><p>持久化层：主要是对非原始数据（数据库或者文本文件等存放数据的形式）的操作层，而不是指原始数据，也就是说，是对数据库的操作，而不是数据，具体为业务逻辑层或表示层提供数据服务。</p>
+</li>
+<li><p>业务逻辑层：主要是针对具体的问题的操作，也可以理解成对数据层的操作，对数据业务逻辑处理，如果说数据层是积木，那逻辑层就是对这些积木的搭建。</p>
+</li>
+<li><p>表示层：主要表示WEB方式，与用户打交道，如果逻辑层相当强大和完善，无论表现层如何定义和更改，逻辑层都能完善地提供服务。</p>
+</li>
+</ol>
+<p>我们这边并不考虑前端界面，因此不考虑表示层的内容。</p>
+<p>简单来说呢，就是当一个用户的请求发往后台之后，由业务逻辑层进行处理，而业务逻辑层则是调用持久化层提供的服务来完成，持久化层所要做的很简单，也就是最基础的增删改查(这里只考虑数据库的情况)；好的，每个层在一个请求中，他们需要做的事情大概已经比较清楚了，接下来我们就结合go语言来看看具体该怎么做。</p>
+<h2 id="golang的三层架构"><a href="#golang的三层架构" class="headerlink" title="golang的三层架构"></a>golang的三层架构</h2><h3 id="持久化层"><a href="#持久化层" class="headerlink" title="持久化层"></a>持久化层</h3><p>我们还是从持久化层来说，这里以一个存储用户信息的users库作为例子来说明，增删改查四个字说起来很容易，但是具体到代码，其实并没有那么简单。我们考虑另一个问题，事务管理该如何进行，例如，在一个转账的场景下，对于数据库的操作要么同时成功，要么一起失败，那这到底是由持久化层直接完成，还是通过某种方式，让业务逻辑层辅助完成？</p>
+<p>针对以上的问题，我给出一点个人的意见，那就是：持久化只需要完成对数据库的操作，并不需要考虑具体的业务场景。那么，我们的答案其实也就很清楚了，持久化层最好的方式，就是只做数据库的操作，而事务管理，交给业务逻辑层去做。</p>
+<p>golang可以自定义类型以及自己的方法，所以我使用xorm做法是：对每个数据库，创建一个类型与之对应，并给这个类型一组操作，用来对数据库进行操作，而为了方便事务管理，参数中接收上一层，也就是业务逻辑层传入的session进行数据库操作即可。</p>
+<h3 id="业务逻辑层"><a href="#业务逻辑层" class="headerlink" title="业务逻辑层"></a>业务逻辑层</h3><p>业务逻辑层在这里可以其实需要做的很简单：</p>
 <ol>
-<li><p><strong>阅读 Asg_RH 文档，绘制用例图。 按 Task1 要求，请使用工具 UMLet，截图格式务必是 png 并控制尺寸</strong></p>
-<p><img src="/images/saad-2-1.png" alt="hw3-1"></p>
-</li>
-<li><p><strong>选择你熟悉的定旅馆在线服务系统（或移动 APP），如绘制用例图。并满足以下要求：</strong></p>
-<ul>
-<li><strong>对比 Asg_RH 用例图，请用色彩标注出创新用例或子用例</strong></li>
-<li><strong>尽可能识别外部系统，并用色彩标注新的外部系统和服务</strong></li>
-</ul>
-<p><img src="/images/saad-2-1.png" alt="hw3-1"></p>
-</li>
-<li><p><strong>对比两个时代、不同地区产品的用例图，总结在项目早期，发现创新的思路与方法</strong></p>
-<p>总结：最直接的办法是在将已有系统的各个流程进行熟悉之后，对已有系统进行复刻，而在复刻过程中，寻找现有的其他领域的服务有没有什么可以结合的点，或者新出现的外部服务有没有可以与之结合的，从而在原有系统上进行创新</p>
-</li>
-<li><p><strong>请使用 SCRUM 方法，在（任务b）用例图基础上，编制某定旅馆开发的需求 （backlog）</strong></p>
-<p> |需求|优先级|描述|<br> |–|–|–|<br> |搜索宾馆|2|输入目标旅馆的信息，搜索内容|<br> |管理预订结果|1|对已经预定的旅馆进行管理|<br> |管理购物车|1|对加入购物车的内容进行管理|<br> |支付|3|选择支付方式并进行支付|<br> |选择详细地点|3|当输入的地区无效时，需要手动选择地点以精确查找|<br> |选择附加服务|4|选择外部商家提供的附加服务|<br> |选择优惠|5|使用已有的优惠|<br> |评论|5|对自己的体验进行评价，查看别人的评论|</p>
-</li>
+<li>接收用户的数据</li>
+<li>调用持久化层接口，并根据相应的业务逻辑，进行事务管理</li>
 </ol>
-</li>
-<li><p>业务建模</p>
-<ol>
-<li><p><strong>在（任务b）基础上，用活动图建模找酒店用例。简述利用流程图发现子用例的方法。</strong></p>
-<p><img src="/images/saad-2-4.png" alt="hw3-1"><br>在流程图中，将不同粒度的活动单独提取出来，构成场景，便得到了子用例</p>
-</li>
-<li><p><strong>选择你身边的银行 ATM，用活动图描绘取款业务流程</strong></p>
-<p><img src="/images/saad-2-5.png" alt="hw3-1"></p>
-</li>
-<li><p><strong>查找淘宝退货业务官方文档，使用多泳道图，表达客户、淘宝网、淘宝商家服务系统、商家等用户和系统协同完成退货业务的过程。分析客户要完成退货业务，在淘宝网上需要实现哪些系统用例</strong></p>
-<p><img src="/images/saad-2-6.png" alt="hw3"></p>
-</li>
-</ol>
-</li>
-<li><p><strong>在大作业基础上，分析三种用例文本的优点和缺点</strong></p>
-<p> 摘要：可以让人很快地获得用例的核心内容，但是缺少了很多细节信息</p>
-<p> 非正式：简洁易懂，但是缺少了很多的关键内容</p>
-<p> 详述：信息翔实，包含了各个方面的细节内容，但是文字太多，不易提取到核心点</p>
-</li>
-</ol>
+<p>用户传来的数据不一定是合法的，因此首先要进行数据的合法性检查，而完成检查之后，则需要调用持久化层的接口，完成业务，这里可能就不仅仅是对于单一数据库的操作的，执行操作的顺序可能也是有严格要求的，因此，这里就需要创建session，用session来管理事务，然后将session传给持久化层，这样便可以保证原子性（atomicity）、一致性（consistency）、隔离性（isolation）和持久性（durability）。当然，这里使用的是orm的技术，如果自己实现的话，可能会更复杂一些，需要更多注意，这里不再深入。</p>
+<h3 id="表示层"><a href="#表示层" class="headerlink" title="表示层"></a>表示层</h3><p>虽说不涉及表示层，但是为了方便对外提供api接口，我还是在上面加了一层，当然，可能并不是我加的，可能是别人早就给出的实践，我这里借鉴而已，无论如何，上面一层用户解析用户的请求数据，同时调用业务逻辑层的方法，将得到的数据传回给用户，可以看成是整个后台和外部的接口吧，所以我觉得放在表示层并不为过。</p>
+<p>我习惯于每一层各司其职，那这一层呢，需要做的就只有两件事：解析用户请求数据 以及 组装响应的数据，甚至连数据合法性都不需要管，什么邮件地址非法啊，电话号码是空号什么的，他都不要管，一股脑给业务逻辑层去，让它去做就够了，拿到下层的数据，也只需要全部进行封装并传回即可。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>讲完了上面的，希望大家可以对golang如何使用三层模式有一个基本的概念，当然，由于资料并不多，这也是本人自己在查找资料之后给出的一个自己的方法，肯定会存在不合理之处，还望大家指正。最后，想留一个问题让大家帮忙一起解决：</p>
+<p><strong>不考虑专门的权限控制服务器的话，接口的权限怎么限制，是业务层实现方法，表示层调用直接鉴权？还是表示层压根不参与，完全由业务层负责？</strong></p>
 
       
 
@@ -234,7 +213,11 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">系统分析与设计</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Architecture</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">golang</a>
         		</li>
       		
 		</ul>
@@ -290,7 +273,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://txzdream.github.io/2018/04/12/SAAD-hw3/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://txzdream.github.io/2018/07/02/golang-3-layer/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -304,18 +287,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/04/15/SAAD-summary-iter1/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          系分作业第一次总结
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/03/20/SAAD-hw2/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">系分作业2</div>
+    <a href="/2018/07/01/SAAD-CONCLUSION/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">系分项目个人总结</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -342,7 +316,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#个人作业"><span class="toc-number">1.</span> <span class="toc-text">个人作业</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三层架构-内容主要来自百度"><span class="toc-number">2.</span> <span class="toc-text">三层架构(内容主要来自百度)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#golang的三层架构"><span class="toc-number">3.</span> <span class="toc-text">golang的三层架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#持久化层"><span class="toc-number">3.1.</span> <span class="toc-text">持久化层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#业务逻辑层"><span class="toc-number">3.2.</span> <span class="toc-text">业务逻辑层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#表示层"><span class="toc-number">3.3.</span> <span class="toc-text">表示层</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后"><span class="toc-number">4.</span> <span class="toc-text">最后</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -367,7 +341,7 @@
 <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 var gitment = new Gitment({
-  id: "https://txzdream.github.io/2018/04/12/SAAD-hw3/",
+  id: "https://txzdream.github.io/2018/07/02/golang-3-layer/",
   owner: 'txzdream',
   repo: 'txzdream.github.io',
   oauth: {

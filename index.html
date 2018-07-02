@@ -151,6 +151,112 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-golang-3-layer" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/02/golang-3-layer/">golang三层架构实践</a>
+    </h1>
+  
+
+        
+        <a href="/2018/07/02/golang-3-layer/" class="archive-article-date">
+  	<time datetime="2018-07-02T10:50:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>作为一个讨厌使用java的后台程序员，我选择使用golang作为后台开发语言，而golang本身的web支持就十分详尽，不太需要外部框架进行辅助，这也就带来了一个问题，我们需要自己去想办法自己实现java spring框架支持的三层架构。</p>
+<p>提前声明，以下内容只是个人在正式来说第一次完整的系统开发中的一些经验，实际可能并不是我以下所提到的方式，所以具体的请以大型项目的分享为准。</p>
+<h2 id="三层架构-内容主要来自百度"><a href="#三层架构-内容主要来自百度" class="headerlink" title="三层架构(内容主要来自百度)"></a>三层架构(内容主要来自百度)</h2><ol>
+<li><p>持久化层：主要是对非原始数据（数据库或者文本文件等存放数据的形式）的操作层，而不是指原始数据，也就是说，是对数据库的操作，而不是数据，具体为业务逻辑层或表示层提供数据服务。</p>
+</li>
+<li><p>业务逻辑层：主要是针对具体的问题的操作，也可以理解成对数据层的操作，对数据业务逻辑处理，如果说数据层是积木，那逻辑层就是对这些积木的搭建。</p>
+</li>
+<li><p>表示层：主要表示WEB方式，与用户打交道，如果逻辑层相当强大和完善，无论表现层如何定义和更改，逻辑层都能完善地提供服务。</p>
+</li>
+</ol>
+<p>我们这边并不考虑前端界面，因此不考虑表示层的内容。</p>
+<p>简单来说呢，就是当一个用户的请求发往后台之后，由业务逻辑层进行处理，而业务逻辑层则是调用持久化层提供的服务来完成，持久化层所要做的很简单，也就是最基础的增删改查(这里只考虑数据库的情况)；好的，每个层在一个请求中，他们需要做的事情大概已经比较清楚了，接下来我们就结合go语言来看看具体该怎么做。</p>
+<h2 id="golang的三层架构"><a href="#golang的三层架构" class="headerlink" title="golang的三层架构"></a>golang的三层架构</h2><h3 id="持久化层"><a href="#持久化层" class="headerlink" title="持久化层"></a>持久化层</h3><p>我们还是从持久化层来说，这里以一个存储用户信息的users库作为例子来说明，增删改查四个字说起来很容易，但是具体到代码，其实并没有那么简单。我们考虑另一个问题，事务管理该如何进行，例如，在一个转账的场景下，对于数据库的操作要么同时成功，要么一起失败，那这到底是由持久化层直接完成，还是通过某种方式，让业务逻辑层辅助完成？</p>
+<p>针对以上的问题，我给出一点个人的意见，那就是：持久化只需要完成对数据库的操作，并不需要考虑具体的业务场景。那么，我们的答案其实也就很清楚了，持久化层最好的方式，就是只做数据库的操作，而事务管理，交给业务逻辑层去做。</p>
+<p>golang可以自定义类型以及自己的方法，所以我使用xorm做法是：对每个数据库，创建一个类型与之对应，并给这个类型一组操作，用来对数据库进行操作，而为了方便事务管理，参数中接收上一层，也就是业务逻辑层传入的session进行数据库操作即可。</p>
+<h3 id="业务逻辑层"><a href="#业务逻辑层" class="headerlink" title="业务逻辑层"></a>业务逻辑层</h3><p>业务逻辑层在这里可以其实需要做的很简单：</p>
+<ol>
+<li>接收用户的数据</li>
+<li>调用持久化层接口，并根据相应的业务逻辑，进行事务管理</li>
+</ol>
+<p>用户传来的数据不一定是合法的，因此首先要进行数据的合法性检查，而完成检查之后，则需要调用持久化层的接口，完成业务，这里可能就不仅仅是对于单一数据库的操作的，执行操作的顺序可能也是有严格要求的，因此，这里就需要创建session，用session来管理事务，然后将session传给持久化层，这样便可以保证原子性（atomicity）、一致性（consistency）、隔离性（isolation）和持久性（durability）。当然，这里使用的是orm的技术，如果自己实现的话，可能会更复杂一些，需要更多注意，这里不再深入。</p>
+<h3 id="表示层"><a href="#表示层" class="headerlink" title="表示层"></a>表示层</h3><p>虽说不涉及表示层，但是为了方便对外提供api接口，我还是在上面加了一层，当然，可能并不是我加的，可能是别人早就给出的实践，我这里借鉴而已，无论如何，上面一层用户解析用户的请求数据，同时调用业务逻辑层的方法，将得到的数据传回给用户，可以看成是整个后台和外部的接口吧，所以我觉得放在表示层并不为过。</p>
+<p>我习惯于每一层各司其职，那这一层呢，需要做的就只有两件事：解析用户请求数据 以及 组装响应的数据，甚至连数据合法性都不需要管，什么邮件地址非法啊，电话号码是空号什么的，他都不要管，一股脑给业务逻辑层去，让它去做就够了，拿到下层的数据，也只需要全部进行封装并传回即可。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>讲完了上面的，希望大家可以对golang如何使用三层模式有一个基本的概念，当然，由于资料并不多，这也是本人自己在查找资料之后给出的一个自己的方法，肯定会存在不合理之处，还望大家指正。最后，想留一个问题让大家帮忙一起解决：</p>
+<p><strong>不考虑专门的权限控制服务器的话，接口的权限怎么限制，是业务层实现方法，表示层调用直接鉴权？还是表示层压根不参与，完全由业务层负责？</strong></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">SAAD</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Architecture</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">golang</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/07/02/golang-3-layer/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-SAAD-CONCLUSION" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1073,131 +1179,6 @@
 
 
   
-    <article id="post-SAAD-hw1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/12/SAAD-hw1/">系分作业1</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/12/SAAD-hw1/" class="archive-article-date">
-  	<time datetime="2018-03-12T11:57:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="简单题"><a href="#简单题" class="headerlink" title="简单题"></a>简单题</h2><ul>
-<li><p><strong>软件工程的定义</strong></p>
-<p>  软件工程是将系统化的、规范的、可度量的方法应用于软件的开发、运行和维护，即将工程化方法应用于软件；以上内容的研究</p>
-</li>
-<li><p><strong>阅读经典名著“人月神话”等资料，解释 software crisis、COCOMO 模型。</strong></p>
-<p>software crisis：软件危机指的是在软件开发中遇到的一系列严重问题，这些问题可能会导致软件产品的寿命缩短，甚至夭折。随着软件规模的不断增大以及计算机性能的持续增加，许多的软件项目都因缺乏一个具体有效的管理手段而面临着以上的问题。</p>
-<p>COCOMO 模型：它是一种精确、易于使用的，基于模型的成本估算方法。从本质上说是一种参数化的项目估算方法，参数建模是把项目的某些特征作为参数，通过建立一个数字模型预测项目成本。</p>
-</li>
-<li><p><strong>软件生命周期</strong></p>
-<p>  软件分析时期、软件设计时期、编码与测试时期、运行与维护时期</p>
-</li>
-<li><p><strong>按照 SWEBok 的 KA 划分，本课程关注哪些 KA 或 知识领域？</strong></p>
-<p>软件需求、软件设计、软件构造、软件工程过程、软件工程工具和方法</p>
-</li>
-<li><p><strong>解释 CMMI 的五个级别。例如：Level 1 - Initial：无序，自发生产模式。</strong></p>
-<ol>
-<li>无序的、混乱的</li>
-<li>有了基本的项目和必要的过程纪律，可以重复成功经验</li>
-<li>将过程文档化、标准化，整个过程可见</li>
-<li>对整个过程和质量有详细的度量数据，对过程有定量的理解和控制</li>
-<li>过程的量化反馈和先进的新思想、新技术促使过程持续不断改进</li>
-</ol>
-</li>
-<li><p><strong>用自己语言简述 SWEBok 或 CMMI （约200字）</strong></p>
-<p>CMMI，软件成熟度模型，在软件开发的不断发展过程中，人们逐渐意识到软件开发的过程和管理上的规范对一个软件产品最终的成败起到一个至关重要的作用。因此，为了改善软件生产过程，人们采用能力模型来指导组织的过程改进，使之过程能力稳定地进行改善。它的本质是软件管理工程的一个部分，它为改进一个组织的各种过程提供了一个单一的集成化框架，新的集成模型框架消除了各个模型的不一致性，减少了模型间的重复，增加透明度和理解，建立了一个自动的、可扩展的框架。从而能够从总体上改进组织的质量和效率。</p>
-</li>
-</ul>
-<h2 id="解释-PSP-各项指标及技能要求："><a href="#解释-PSP-各项指标及技能要求：" class="headerlink" title="解释 PSP 各项指标及技能要求："></a>解释 PSP 各项指标及技能要求：</h2><ul>
-<li><p><strong>阅读《现代软件工程》的 <a href="http://www.cnblogs.com/xinz/archive/2011/11/27/2265425.html" target="_blank" rel="noopener">PSP: Personal Software Process</a> 章节。按表格 PSP 2.1，了解一个软件工程师在接到一个任务之后要做什么，需要哪些技能，解释你打算如何统计每项数据？ （期末考核，每人按开发阶段提交这个表）</strong></p>
-<p>在接到一个任务之后，需要：</p>
-<ul>
-<li><p>计划</p>
-<p>估计这个任务需要多少时间</p>
-<p>计划的数据，将以文档的方式展现，因此在进行数据统计时，只需要将具体文档的页数和花费时间等进行统计即可</p>
-</li>
-<li><p>开发</p>
-<p>分析需求、生成设计文档、设计复审 (和同事审核设计文档)、代码规范 (为目前的开发制定合适的规范)、具体设计、具体编码、代码复审、测试（包括自我测试，修改代码，提交修改）</p>
-<p>开发阶段的主要产出是代码，因此需要考虑代码量，以及修改的次数，解决的代码问题数目，在编码上耗费的时间以及完成的模块数和模块大小等因素来进行数据的统计；涉及到文档的内容，可以考虑用文档的质量和数量进行评估和统计</p>
-</li>
-<li><p>记录时间花费</p>
-</li>
-<li>测试报告</li>
-<li>计算工作量</li>
-<li>事后总结</li>
-<li>提出过程改进计划</li>
-</ul>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">SAAD</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">系统分析与设计</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/12/SAAD-hw1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1320,11 +1301,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">golang</a>
+                <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">project</a>
+                <a href="javascript:void(0)" class="js-tag color2">golang</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1333,6 +1314,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">docker hub</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">project</a>
               </li>
             
             <div class="clearfix"></div>
