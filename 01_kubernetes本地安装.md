@@ -12,7 +12,7 @@
 
 - Linux系统(这里使用的国内的deepin系统，其他环境之间的操作大同小异，这里不一一展示)
 
-- KVM/VirtualBox(这里推荐使用VirtualBox，当然其他的虚拟软件也有支持的，具体列表见[官方文档](https://kubernetes.io/docs/setup/learning-environment/minikube/#specifying-the-vm-driver))
+- KVM/VirtualBox(这里推荐使用VirtualBox，同时issue中问题的提出和解决基本都是针对vbox的，所以十分建议。当然其他的虚拟软件也有支持的，具体列表见[官方文档](https://kubernetes.io/docs/setup/learning-environment/minikube/#specifying-the-vm-driver))
 
 - Docker(这里和上一项满足其中之一即可，最低要求[1.13.1](https://github.com/kubernetes/kubernetes/pull/77051)，具体安装方法请自行了解)
 
@@ -64,7 +64,7 @@
     minikube start --vm-driver=<driver_name> # 该命令大概率无法执行成功
     ```
 
-    由于我本地采用的是vmware环境，所以这里的`driver_name`使用的是`vmware`，但是在命令执行完成后，我发现并没有成功，报错信息是这样的：
+    例如采用的是vmware环境，所以这里的`driver_name`使用的是`vmware`，但是virtualbox本身就是默认使用的，所以如果使用virtualbox进行配置则只需要start即可。我本地采用的是vmware方案，但是在命令执行完成后，我发现并没有成功，报错信息是这样的：
 
     ```(text)
     Unable to start VM: new host: Driver "vmware" not found. Do you have the plugin binary "docker-machine-driver-vmware" accessible in your PATH?
@@ -98,7 +98,11 @@
 
 1. 无法启动dashboard
 
-尚未解决
+    vmware下尚未解决，可以尝试删除原集群后重试，由于官方issue给出的都是在virtuablbox下的解决方式，所以建议更换虚拟机程序进行配置，我也是在更换了virtualbox后实现了一次成功
+
+1. 其他一切证书问题
+
+    建议使用`minikube delete`命令删除集群后再重新创建，确保一次成功，之前的系统镜像和docker镜像都已经有本地缓存，因此不再需要重新下载
 
 ## 总结
 
